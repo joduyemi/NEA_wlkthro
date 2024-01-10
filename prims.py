@@ -1,9 +1,6 @@
 import pprint
 import random
 
-
-
-
 class RandomisedPrims:
     '''
     Creates a minimum spanning tree (MST) for square graph
