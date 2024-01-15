@@ -136,8 +136,9 @@ class RandomisedPrims:
 # n = number of nodes in a row
 n = 4
 pr = RandomisedPrims(n)
-
+'''
 print("prims mst as adjacency list:")
 pprint.pp(
     pr.prims_mst()
 )
+'''
