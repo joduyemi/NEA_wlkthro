@@ -1,16 +1,11 @@
 import turtle
 import tkinter
-import pprint
 import prims
-import randomm
 from PIL import Image
-import io
-import os, sys
 
-#home = os.environ['HOME']
 window = tkinter.Tk()
 canvas = tkinter.Canvas(master = window, width = 800, height = 800)
-canvas.grid(padx=2, pady=2, row=0, column=0, rowspan=10, columnspan=10) # , sticky='nsew')
+canvas.grid(padx=2, pady=2, row=0, column=0, rowspan=10, columnspan=10)
 t = turtle.RawTurtle(canvas)
 t.pensize(2)
 t.hideturtle()
@@ -21,10 +16,9 @@ class rectMaze:
     '''
     Uses the prims mst to create and display the corresponding maze on the Tkinter canvas
     '''
-    def __init__(self, n, sideLen=10, algo="prims"):
+    def __init__(self, n, sideLen):
         # defines the size of the maze
         self.n = n
-        self.algo = algo
         self.TOP = 0
         self.LEFT = 1
         self.BOTTOM = 2

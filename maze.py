@@ -1,4 +1,3 @@
-from prims import RandomisedPrims
 from draw import rectMaze
 class Cell:
     def __init__(self, x, y, walls, id):
@@ -28,7 +27,7 @@ class Maze:
         '''
         self.n = n
         self.sideLen = sideLen
-        self.my_maze = rectMaze(self.n, self.sideLen, "prims")
+        self.my_maze = rectMaze(self.n, self.sideLen)
        
 
 

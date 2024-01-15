@@ -1,4 +1,3 @@
-import pprint
 import random
 
 class RandomisedPrims:
@@ -130,15 +129,3 @@ class RandomisedPrims:
 
             self.position[node][0] = row
             self.position[node][1] = col
-
-
-
-# n = number of nodes in a row
-n = 4
-pr = RandomisedPrims(n)
-'''
-print("prims mst as adjacency list:")
-pprint.pp(
-    pr.prims_mst()
-)
-'''
