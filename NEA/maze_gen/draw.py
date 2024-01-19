@@ -1,8 +1,8 @@
-import turtle
-import tkinter
-import prims
-from PIL import Image
-
+#import turtle
+#import tkinter
+from .prims import RandomisedPrims
+#from PIL import Image
+'''
 window = tkinter.Tk()
 canvas = tkinter.Canvas(master = window, width = 800, height = 800)
 canvas.grid(padx=2, pady=2, row=0, column=0, rowspan=10, columnspan=10)
@@ -10,6 +10,7 @@ t = turtle.RawTurtle(canvas)
 t.pensize(2)
 t.hideturtle()
 t.speed(0)
+'''
 
 
 class rectMaze:
@@ -32,10 +33,10 @@ class rectMaze:
         creates and displays the maze
         '''
         
-        self.pr = prims.RandomisedPrims(self.n)
+        self.pr = RandomisedPrims(self.n)
         self.mst = self.pr.prims_mst()
         
-
+        '''
         # start the x-coordinate essentially half of the way to the left of the midway point, so it will end up half of the way to the right 
         x = - (self.n / 2) * self.sideLen
         # start the y-coordinate at the positive equivalent of the x coordinate, for similar reasons
@@ -89,22 +90,24 @@ class rectMaze:
             x -= self.sideLen * self.n
             y -= self.sideLen
             t.goto(x,y)
+            '''
     def save_screen(self):
         '''
         converts the canvas representation to a jpg file
-        '''
+        
         # obtains the turtle screen from the turtle object
         ts = t.getscreen()
         # obtains the tkinter canvas on which the turtle screen is drawn
         cv = ts.getcanvas()
 
         # intermediate step to save the canvas as a postscript file (common file format for graphics)
-        im = "C:\\Users\\jodu0\\OneDrive\\Desktop\\Project\\NEA_wlkthro\\f.eps"
+        im = "C:\\Users\\jodu0\\OneDrive\\Desktop\\Project\\NEA_wlkthro\\Image\\f.eps"
         cv.postscript(file=im)
 
         # open the eps file with the pillow module which allows me to work on it in Python
         eps_image = Image.open(im)
         # convert back to RGB for saving and save file
         img = eps_image.convert("RGB")
-        img.save("C:\\Users\\jodu0\\OneDrive\\Desktop\\Project\\NEA_wlkthro\\f.jpg", quality=95)
+        img.save("C:\\Users\\jodu0\\OneDrive\\Desktop\\Project\\NEA_wlkthro\\Image\\f.jpg", quality=95)
+        '''
     

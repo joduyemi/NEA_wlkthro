@@ -1,4 +1,4 @@
-from draw import rectMaze
+from .draw import rectMaze
 class Cell:
     def __init__(self, x, y, walls, id):
         '''
@@ -38,7 +38,7 @@ class Maze:
         self.my_maze.create_maze()
         self.pr = self.my_maze.pr
         self.mst = self.pr.prims_mst()
-        self.my_maze.save_screen()
+        #self.my_maze.save_screen()
     
 
     def serialise_cells(self):

@@ -1,0 +1,38 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: Maze App on AWS Lambda
+
+Resources:
+  MazeFunction: 
+    Type: AWS::Serverless::Function 
+    Properties: 
+      Handler: maze_gen.lambda_handler.lambda_handler 
+      Runtime: python3.10
+      CodeUri: ../
+     
+
+  ApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: prod
+      DefinitionBody:
+        swagger: "2.0"
+        info:
+          title: "Maze Generator API"
+        paths:
+          /api/maze:
+            x-amazon-apigateway-any-method:
+              x-amazon-apigateway-integration:
+                uri:
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${MazeFunction.Arn}/invocations
+                passthroughBehavior: "when_no_match"
+                httpMethod: POST
+                type: aws_proxy
+          /api/data:
+            x-amazon-apigateway-any-method:
+              x-amazon-apigateway-integration:
+                uri:
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${MazeFunction.Arn}/invocations
+                passthroughBehavior: "when_no_match"
+                httpMethod: POST
+                type: aws_proxy
