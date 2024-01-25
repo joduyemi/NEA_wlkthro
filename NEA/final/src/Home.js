@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Canvas from './Canvas';
 
 
-const apiEndpoint = "https://euum9mrx4k.execute-api.eu-west-2.amazonaws.com/prod/api/maze?event=maze_generation&n=15&sideLen=18"
+const apiEndpoint = "https://euum9mrx4k.execute-api.eu-west-2.amazonaws.com/prod/api/maze?event=maze_generation&n=10&sideLen=18"
 
 const Home = () => {
         // overarching (arrow) function which will be imported by the main module
@@ -27,9 +27,7 @@ const Home = () => {
                         const maze = JSON.parse(data[0]);
                         const path = data[1];
                         const final_maze = JSON.parse(maze.replace(/'/g, '"')); // regex to format correctly for JSON standards
-                        console.log(final_maze);
                         const final_path = JSON.parse(path.replace(/'/g, '"'))
-                        console.log(final_path);
 
                         // uses the functions defined in the useState to update the state variables    
                         setMazes(final_maze);
