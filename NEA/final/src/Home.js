@@ -2,17 +2,19 @@ import { useState, useEffect } from 'react';
 import Canvas from './Canvas';
 
 
-const apiEndpoint = "https://euum9mrx4k.execute-api.eu-west-2.amazonaws.com/prod/api/maze?event=maze_generation&n=10&sideLen=18"
+const apiEndpoint = "https://euum9mrx4k.execute-api.eu-west-2.amazonaws.com/prod/api/maze?event=maze_generation&n=8&sideLen=18"
 
-const Home = () => {
+const Home = ({reloadMaze, onReloadComplete}) => {
         // overarching (arrow) function which will be imported by the main module
 
         const [mazes, setMazes] = useState(null);
         const [paths, setPaths] = useState(null);
         useEffect(() => {
-            let isMounted = true;
+            if (reloadMaze) {
+                let isMounted = true;
             const fetchData = async () => {
                 // uses error-handling to fetch the data
+
                 try {
                     const response = await fetch(apiEndpoint, { // async function to give the getch time to return a response
                         method: 'GET',
@@ -32,11 +34,14 @@ const Home = () => {
                         // uses the functions defined in the useState to update the state variables    
                         setMazes(final_maze);
                         setPaths(final_path);
+                        onReloadComplete();
                         
                     }
                 } catch (error) {
                     console.error("Error fetching maze data", error);
                 }
+
+                
             }
 
             
@@ -46,8 +51,10 @@ const Home = () => {
                 // cleanup function
                 isMounted = false;
             };
+            }
+            
 
-        }, []) // empty dependency array means the effect runs once after the initial render
+        }, [reloadMaze, onReloadComplete]) // empty dependency array means the effect runs once after the initial render
         
         return (
             <div className="Home">

@@ -8,7 +8,7 @@ const Canvas = ({mazes, paths}) => {
     // define a variable to check if the maze is drawn
     const [mazeDrawn, setMazeDrawn] = useState(false);
     useEffect(() => {
-        // always references CURRENT value of canvasRef, provided it existss
+        // always references CURRENT value of canvasRef, provided it exists
         const canvas = canvasRef.current;
         if (!canvas) {
             console.error("Canvas element is not available. ");
@@ -17,14 +17,24 @@ const Canvas = ({mazes, paths}) => {
         
         const values = Object.values(mazes);
 
-        const ctx = canvas.getContext("2d");
+        let ctx = canvas.getContext("2d");
+        const clearCanvas = () => {
+            ctx = canvas.getContext("2d");
+            ctx.save();
+            ctx.globalCompositeOperation = 'copy';
+            ctx.strokeStyle = 'transparent';
+            ctx.beginPath();
+            ctx.lineTo(0, 0);
+            ctx.stroke();
+            ctx.restore();
+        };
 
         const cellSize = 25;
         const middle = cellSize / 2;
 
+
         const drawMaze = (values, index = 0) => {
             // recursively draws the maze
-
             // stops when there are no more cells
             if (index >= values.length) {
                 setMazeDrawn(true);
@@ -62,9 +72,9 @@ const Canvas = ({mazes, paths}) => {
             }
 
 
-            setTimeout(() => {
+            requestAnimationFrame(() => {
                 drawMaze(values, index + 1);
-            }, 1);
+            });
         }
 
         const drawPath = (values, finalPath) => {
@@ -78,6 +88,7 @@ const Canvas = ({mazes, paths}) => {
                 // return once drawing is over (base case)
                 if (currentIndex >= finalPath.length) {
                     return;
+
                 }
 
                 // access the data of a cell on the path from values much like in mazeDraw (also get the midpoint this time)
@@ -101,12 +112,14 @@ const Canvas = ({mazes, paths}) => {
             drawNextCell();
         }
 
+        
         // only initiate the process if the maze data is available
-        if(mazes) {
+        if (mazes) {
             drawMaze(values);
         }
+        clearCanvas();
 
-    }, [mazes, mazeDrawn, paths])
+    }, [mazes, paths])
 
     return <canvas ref={canvasRef} width={2000} height={2000}></canvas>
 }
