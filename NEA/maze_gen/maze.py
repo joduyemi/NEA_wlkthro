@@ -1,4 +1,4 @@
-from .draw import rectMaze
+from draw import rectMaze
 class Cell:
     def __init__(self, x, y, walls, id):
         '''

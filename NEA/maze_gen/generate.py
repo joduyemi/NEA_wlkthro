@@ -1,5 +1,5 @@
-from .maze import Maze
-from .dijkstra import dijkstra
+from maze import Maze
+from dijkstra import dijkstra, astar
 import io
 import contextlib
 import ast
@@ -28,11 +28,15 @@ def generate_maze(n, sideLen):
     end = len(new_maze) - 1
 
     # find the maze-solving path
-    path_data = json.dumps(dijkstra(new_maze, ids, 0, end, walls))
+    path_data, visited = astar(new_maze, ids, 0, end, walls)
+    path_data = json.dumps(path_data)
+    visited = json.dumps(visited)
     # adds both the original maze data and the solved path data in json format to the final return object
     data = []
     data.append(maze_data)
     data.append(path_data)
+    data.append(visited)
 
     return data
 
+print(generate_maze(6, 18))

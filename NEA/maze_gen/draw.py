@@ -1,6 +1,6 @@
 #import turtle
 #import tkinter
-from .prims import RandomisedPrims
+from prims import RandomisedPrims
 #from PIL import Image
 '''
 window = tkinter.Tk()
