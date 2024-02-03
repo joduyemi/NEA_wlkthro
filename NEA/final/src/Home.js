@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Canvas from './Canvas';
 
 
-const apiEndpoint = "https://euum9mrx4k.execute-api.eu-west-2.amazonaws.com/prod/api/maze?event=maze_generation&n=15&sideLen=18"
+const apiEndpoint = "https://euum9mrx4k.execute-api.eu-west-2.amazonaws.com/prod/api/maze?event=maze_generation&n=10&sideLen=18"
 
 const Home = ({reloadMaze, onReloadComplete}) => {
         // overarching (arrow) function which will be imported by the main module

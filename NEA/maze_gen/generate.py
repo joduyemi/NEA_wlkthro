@@ -28,7 +28,7 @@ def generate_maze(n, sideLen):
     end = len(new_maze) - 1
 
     # find the maze-solving path
-    path_data, visited = astar(new_maze, ids, 0, end, walls)
+    path_data, visited = dijkstra(new_maze, ids, 0, end, walls)
     path_data = json.dumps(path_data)
     visited = json.dumps(visited)
     # adds both the original maze data and the solved path data in json format to the final return object
