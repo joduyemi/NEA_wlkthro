@@ -72,14 +72,19 @@ const Canvas = ({mazes, paths, visited}) => {
                 // access the data of a cell on the path from values much like in mazeDraw (also get the midpoint this time)
                 const cellIndex = finalPath[currentIndex];
                 const value = values[cellIndex];
-                ctx.fillStyle = "rgba(219, 173, 52, 0.66)";
+                ctx.fillStyle = "rgba(251, 255, 0, 0.8)";
                 const x = value.x;
                 const y = value.y;
                 const left = y * cellSize;
                 const top = x * cellSize;
                 ctx.fillRect(left, top, 50, 50);
                 currentIndex ++;
-                setTimeout(drawNextCell, 1000);
+                if (visited.length > 0.45*mazes.length) {
+                    setTimeout(drawNextCell, 900);
+                }
+                else {
+                    setTimeout(drawNextCell, 550); 
+                }
             }
 
             drawNextCell();
@@ -105,7 +110,7 @@ const Canvas = ({mazes, paths, visited}) => {
       
               currentIndex++;
       
-              setTimeout(drawVisited, 150);
+              setTimeout(drawVisited, 120);
             };
       
             drawVisited();
@@ -136,9 +141,9 @@ const Canvas = ({mazes, paths, visited}) => {
         ctx.fillStyle = "rgba(0, 255, 0, 0.8)";
         ctx.fillRect(0, 0, 50, 50);
         ctx.fillStyle = "red";
-        ctx.fillRect(450, 450, 50, 50);
+        ctx.fillRect(500, 500, 50, 50);
 
-
+        console.log(visited);
     }, [mazes, paths, visited])
 
     return <canvas ref={canvasRef} width={2000} height={2000}></canvas>

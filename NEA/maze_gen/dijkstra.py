@@ -63,7 +63,6 @@ def dijkstra(maze, ids, start, end, new_walls):
     return path, visited
 
 
-
 def euclidean_distance(node1, node2):
     x1, y1 = node1 % 6, node1 // 6
     x2, y2 = node2 % 6, node2 // 6

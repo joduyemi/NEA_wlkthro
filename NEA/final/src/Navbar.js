@@ -7,8 +7,12 @@ const Navbar = ({ onReloadMaze }) => {
   const handleReloadMaze = () => {
     if (!isButtonDisabled) {
       setButtonDisabled(true);
-      onReloadMaze(() => setButtonDisabled(false)); // Pass a callback to re-enable the button
+      onReloadMaze();
     }
+  }
+
+  const handleReloadComplete = () => {
+    setButtonDisabled(false);
   }
 
   return (
