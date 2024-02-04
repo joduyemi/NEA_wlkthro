@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-const Canvas = ({mazes, paths, visited}) => {
+const Canvas = ({mazes, paths, visited, times, pathTimes, cumulative}) => {
+    //console.log(paths);
+    //console.log(visited);
+    //console.log(times);
+    //console.log(cumulative);
     // function to interactively display the maze
-
     // use a useRef hook to get the HTML canvas element of the DOM (outside of the useEffect to persist through rerenders)
     const canvasRef = useRef(null);
     useEffect(() => {
@@ -59,6 +62,7 @@ const Canvas = ({mazes, paths, visited}) => {
             });
         };
 
+        const total_delay = new Array(0)
         const drawPath = (values, finalPath) => {
             let currentIndex = 0;
             
@@ -70,8 +74,11 @@ const Canvas = ({mazes, paths, visited}) => {
                 }
 
                 // access the data of a cell on the path from values much like in mazeDraw (also get the midpoint this time)
-                const cellIndex = finalPath[currentIndex];
-                const value = values[cellIndex];
+                const pathCell = finalPath[currentIndex];
+                const value = values[pathCell];
+                const delay = (cumulative[times.indexOf(pathCell)]);
+                total_delay.push(delay);
+                //console.log(delay);
                 ctx.fillStyle = "rgba(251, 255, 0, 0.8)";
                 const x = value.x;
                 const y = value.y;
@@ -79,19 +86,14 @@ const Canvas = ({mazes, paths, visited}) => {
                 const top = x * cellSize;
                 ctx.fillRect(left, top, 50, 50);
                 currentIndex ++;
-                if (visited.length > 0.45*mazes.length) {
-                    setTimeout(drawNextCell, 900);
-                }
-                else {
-                    setTimeout(drawNextCell, 550); 
-                }
+                setTimeout(drawNextCell, delay);
             }
 
             drawNextCell();
         };
 
+
         const drawVisited = (values, visited) => {
-            console.log(visited);
             let currentIndex = 0;
       
             const drawVisited = () => {
@@ -101,6 +103,7 @@ const Canvas = ({mazes, paths, visited}) => {
       
               const cellIndex = visited[currentIndex];
               const value = values[cellIndex];
+              //console.log(times[currentIndex]);
               ctx.fillStyle = "rgba(0, 1, 0, 0.07)";
               const x = value.x;
               const y = value.y;
@@ -110,7 +113,7 @@ const Canvas = ({mazes, paths, visited}) => {
       
               currentIndex++;
       
-              setTimeout(drawVisited, 120);
+              setTimeout(drawVisited, (times[currentIndex]) * 100000);
             };
       
             drawVisited();
@@ -131,20 +134,19 @@ const Canvas = ({mazes, paths, visited}) => {
                 drawVisited(mazes, visited);
             }, 500)
         }
-        
+        /*
         if (paths) {
             setTimeout(() => {
                 drawPath(values, paths)
             }, 500)
-        }
+        }*/
 
         ctx.fillStyle = "rgba(0, 255, 0, 0.8)";
         ctx.fillRect(0, 0, 50, 50);
         ctx.fillStyle = "red";
-        ctx.fillRect(500, 500, 50, 50);
+        ctx.fillRect(700, 700, 50, 50);
 
-        console.log(visited);
-    }, [mazes, paths, visited])
+    }, [mazes, paths, visited, times, pathTimes, cumulative])
 
     return <canvas ref={canvasRef} width={2000} height={2000}></canvas>
 }

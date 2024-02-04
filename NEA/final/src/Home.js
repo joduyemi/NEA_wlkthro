@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Canvas from './Canvas';
 
 
-const apiEndpoint = "https://euum9mrx4k.execute-api.eu-west-2.amazonaws.com/prod/api/maze?event=maze_generation&n=11&sideLen=18"
+const apiEndpoint = "https://euum9mrx4k.execute-api.eu-west-2.amazonaws.com/prod/api/maze?event=maze_generation&n=15&sideLen=18"
 
 const Home = ({reloadMaze, onReloadComplete}) => {
         // overarching (arrow) function which will be imported by the main module
@@ -10,6 +10,9 @@ const Home = ({reloadMaze, onReloadComplete}) => {
         const [mazes, setMazes] = useState(null);
         const [paths, setPaths] = useState(null);
         const [visited, setVisited] = useState(null);
+        const [times, setTimes] = useState(null);
+        const [pathTimes, setPathTimes] = useState(null)
+        const [cumulative, setCumulative] = useState(null);
         useEffect(() => {
             if (reloadMaze) {
                 let isMounted = true;
@@ -27,19 +30,30 @@ const Home = ({reloadMaze, onReloadComplete}) => {
     
                     if (response.ok) {
                         const data = await response.json();
-                        console.log(data);
                         const maze = JSON.parse(data[0]);
                         const path = data[1];
-                        const visited = data[2];
+                        const visited2 = data[2];
+                        const times2 = data[3];
+                        const pathTimes2 = data[4];
+                        const cumulatives2 = data[5];
                         const final_maze = JSON.parse(maze.replace(/'/g, '"')); // regex to format correctly for JSON standards
-                        const final_path = JSON.parse(path.replace(/'/g, '"'))
-                        const final_visited = JSON.parse(visited.replace(/'/g, '"'))
+                        const final_path = JSON.parse(path.replace(/'/g, '"'));
+                        const final_visited = JSON.parse(visited2.replace(/'/g, '"'));
+                        const final_times = JSON.parse(times2.replace(/'/g, '"'));
+                        const final_path_times = JSON.parse(pathTimes2.replace(/'/g, '"'));
+                        const final_cumulative = JSON.parse(cumulatives2.replace(/'/g, '"'));
+      
 
                         // uses the functions defined in the useState to update the state variables    
                         setMazes(final_maze);
                         setPaths(final_path);
                         setVisited(final_visited);
+                        setTimes(final_times);
+                        setPathTimes(final_path_times)
+                        setCumulative(final_cumulative);
+    
                         onReloadComplete();
+                    
                         
                     }
                 } catch (error) {
@@ -63,7 +77,7 @@ const Home = ({reloadMaze, onReloadComplete}) => {
         
         return (
             <div className="Home">
-                {mazes && paths && visited && <Canvas mazes={mazes} paths={paths} visited={visited} />}
+                {mazes && paths && visited && <Canvas mazes={mazes} paths={paths} visited={visited} times={times} pathTimes={pathTimes} cumulative={cumulative}/>}
             </div>
         );
 
