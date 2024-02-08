@@ -2,8 +2,6 @@ import { useState, useEffect } from 'react';
 import Canvas from './Canvas';
 
 
-
-
 const Home = ({reloadMaze, onReloadComplete, userInput}) => {
         const apiEndpoint = `https://euum9mrx4k.execute-api.eu-west-2.amazonaws.com/prod/api/maze?event=maze_generation&n=${userInput}&sideLen=18`
         // overarching (arrow) function which will be imported by the main module
@@ -13,7 +11,12 @@ const Home = ({reloadMaze, onReloadComplete, userInput}) => {
         const [visited, setVisited] = useState(null);
         const [times, setTimes] = useState(null);
         const [pathTimes, setPathTimes] = useState(null);
+        const [gh, setGh] = useState(userInput);
         
+        useEffect(() => {
+            setGh(userInput); // Update gh whenever userInput changes
+        }, [userInput]);
+
         useEffect(() => {
             if (reloadMaze) {
                 let isMounted = true;
@@ -49,9 +52,7 @@ const Home = ({reloadMaze, onReloadComplete, userInput}) => {
                             setTimes(final_times);
                             setPathTimes(final_path_times)
         
-                            onReloadComplete();
-                        
-                            
+                            onReloadComplete(); 
                         }
                     } catch (error) {
                         console.error("Error fetching maze data", error);
@@ -69,11 +70,11 @@ const Home = ({reloadMaze, onReloadComplete, userInput}) => {
         }
             
 
-        }, [reloadMaze, onReloadComplete]) 
+        }, [reloadMaze, onReloadComplete, userInput]) 
         
         return (
             <div className="Home">
-                {mazes && paths && visited && <Canvas mazes={mazes} paths={paths} visited={visited} times={times} pathTimes={pathTimes} userInput={userInput}/>}
+                {mazes && paths && visited && gh && <Canvas mazes={mazes} paths={paths} visited={visited} times={times} pathTimes={pathTimes} gh={gh}/>}
             </div>
         );
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from './Navbar';
 import Home from './Home';
+import Canvas from './Canvas';
 
 function App() {
   const [reloadMaze, setReloadMaze] = useState(false);

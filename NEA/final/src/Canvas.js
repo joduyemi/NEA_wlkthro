@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-const Canvas = ({mazes, paths, visited, times, pathTimes}) => {
+const Canvas = ({mazes, paths, visited, times, pathTimes, gh}) => {
+    const size = Number(gh);
+    const endcell = (gh*50)-50;
     let finished = false;
     // function to interactively display the maze
     // use a useRef hook to get the HTML canvas element of the DOM (outside of the useEffect to persist through rerenders)
@@ -161,9 +163,9 @@ const Canvas = ({mazes, paths, visited, times, pathTimes}) => {
         ctx.fillStyle = "rgba(0, 255, 0, 0.8)";
         ctx.fillRect(0, 0, 50, 50);
         ctx.fillStyle = "red";
-        ctx.fillRect(600, 600, 50, 50);
+        ctx.fillRect(endcell, endcell, 50, 50);
 
-    }, [mazes, paths, visited, times, pathTimes])
+    }, [mazes, paths, visited, times, pathTimes, gh])
 
     return <canvas ref={canvasRef} width={2000} height={2000}></canvas>
 }
