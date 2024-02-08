@@ -1,7 +1,7 @@
 import Home from './Home';
 import React, { useState } from 'react';
 
-const Navbar = ({ onReloadMaze }) => {
+const Navbar = ({ onReloadMaze, onInputChange }) => {
   const [isButtonDisabled, setButtonDisabled] = useState(false);
 
   const handleReloadMaze = () => {
@@ -11,9 +11,10 @@ const Navbar = ({ onReloadMaze }) => {
     }
   }
 
-  const handleReloadComplete = () => {
-    setButtonDisabled(false);
-  }
+  const handleChange = ((event) => {
+    const value = event.target.value;
+    onInputChange(value);
+  })
 
   return (
     <nav className="navbar">
@@ -31,8 +32,10 @@ const Navbar = ({ onReloadMaze }) => {
       >
         Create a new maze
       </button>
+      <input type='text' id='user_input' placeholder='Type the maze size' onChange={handleChange}></input>
     </nav>
   );
 }
 
 export default Navbar;
+
