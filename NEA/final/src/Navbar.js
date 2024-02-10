@@ -1,9 +1,10 @@
-import Home from './Home';
 import React, { useState } from 'react';
 
-const Navbar = ({ onReloadMaze, onInputChange, onInputChange2 }) => {
+const Navbar = ({ onReloadMaze, onInputChange, onInputChange2, onInputChange3, onInputChange4 }) => {
+  // state variable to manage if button is enabled
   const [isButtonDisabled, setButtonDisabled] = useState(false);
 
+  // ensures maze reload button is disabled to prevent multiple requests during maze reload, then calls onReloadMaze from App
   const handleReloadMaze = () => {
     if (!isButtonDisabled) {
       setButtonDisabled(true);
@@ -11,15 +12,42 @@ const Navbar = ({ onReloadMaze, onInputChange, onInputChange2 }) => {
     }
   }
 
-  const handleChange = ((event) => {
+  // handles the onChange of the maze size input and passes it to the parent (App) through the prop
+  const handleMazeSize = ((event) => {
     const value = event.target.value;
     onInputChange(value);
   })
 
-  const handleChange2 = ((event) => {
+  // handles the onChange of the maze algo input and passes it to the parent (App) through the prop
+  const handleMazeAlgo = ((event) => {
     const value = event.target.value;
     onInputChange2(value);
   })
+
+  // handles the onChange of the maze size input and passes it to the parent (App) through the prop
+  const handleMazeStart = ((event) => {
+    const value = parseInt(event.target.value); // Convert input value to integer
+    const maxSize = parseInt(document.getElementById('user_input').value) ** 2 - 1; // Calculate max value based on maze size
+    if (!isNaN(value) && value <= maxSize) { // Validate if value is a number and within range
+      onInputChange3(value.toString());
+    } else {
+      alert('Invalid input! Please enter a number less than or equal to ' + maxSize);
+    }
+  }
+  )
+
+  // handles the onChange of the maze algo input and passes it to the parent (App) through the prop
+  const handleMazeEnd = ((event) => {
+    const value = parseInt(event.target.value); // Convert input value to integer
+    const maxSize = parseInt(document.getElementById('user_input').value) ** 2 - 1; // Calculate max value based on maze size
+    if (!isNaN(value) && value <= maxSize) { // Validate if value is a number and within range
+      onInputChange4(value.toString());
+    } else {
+      alert('Invalid input! Please enter a number less than or equal to ' + maxSize);
+    }
+  }
+  )
+
 
   return (
     <nav className="navbar">
@@ -37,9 +65,15 @@ const Navbar = ({ onReloadMaze, onInputChange, onInputChange2 }) => {
       >
         Create a new maze
       </button>
-      <input type='text' id='user_input' placeholder='Type the maze size' onChange={handleChange}></input>
-      <input type='text' id='algo' placeholder='Type the algorithm' onChange={handleChange2}></input>
+      <input type='text' id='user_input' placeholder='Type the maze size' onChange={handleMazeSize}></input>
+      <select id='algo' onChange={handleMazeAlgo}>
+        <option value="astar">A*</option>
+        <option value="dijkstra">Dijkstra</option>
+      </select>
+      <input type='text' id='start' placeholder='Type the start' onChange={handleMazeStart}></input>
+      <input type='text' id='end' placeholder='Type the end' onChange={handleMazeEnd}></input>
     </nav>
+    
   );
 }
 

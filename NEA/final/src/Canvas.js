@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
-const Canvas = ({mazes, paths, visited, times, pathTimes, gh}) => {
-    const size = Number(gh);
-    const endcell = (gh*50)-50;
-    let finished = false;
+const Canvas = ({mazes, paths, visited, times, pathTimes, userStart, userEnd}) => {
+    const start = userStart;
+    const end = userEnd;
     // function to interactively display the maze
     // use a useRef hook to get the HTML canvas element of the DOM (outside of the useEffect to persist through rerenders)
     const canvasRef = useRef(null);
     useEffect(() => {
+        let finished = false;
         // always references CURRENT value of canvasRef, provided it exists
         const canvas = canvasRef.current;
         if (!canvas) {
@@ -31,39 +31,77 @@ const Canvas = ({mazes, paths, visited, times, pathTimes, gh}) => {
             values.forEach(value => {
                 const x = value.x;
                 const y = value.y;
+                const id = value.id;
                 const walls = value.walls;
                 // start at the top and move right (Y) and down (X)
                 const left = y * cellSize;
                 const top = x * cellSize;
 
                 ctx.fillStyle = "black";
+                ctx.font = '20px Arial';
 
                 // if there is wall to the top, draw it
                 if (walls[0] === 0) {
                     ctx.fillRect(left, top, cellSize, 1);
+                    //ctx.fillText(id, left, top+50);
+                    if (id === start) {
+                        ctx.fillStyle = "rgba(0, 255, 0, 0.8)";
+                        ctx.fillRect(left, top, 50, 50);
+                    }
+                    else if (id === end) {
+                        ctx.fillStyle = "red";
+                        ctx.fillRect(left, top, 50, 50);
+                    }
                 }
 
                 // if there is a wall to the bottom, draw it (2x thickness)
                 if (walls[2] === 0) {
                     ctx.fillRect(left, top + cellSize - 1, cellSize, 1);
+                    //ctx.fillText(id, left, top+50);
+                    if (id === start) {
+                        ctx.fillStyle = "rgba(0, 255, 0, 0.8)";
+                        ctx.fillRect(left, top, 50, 50);
+                    }
+                    else if (id === end) {
+                        ctx.fillStyle = "red";
+                        ctx.fillRect(left, top, 50, 50);
+                    }
                 }
 
                 // if not the starting cell and there is a boundary to the left, draw it
-                if ((value.id != 0) && walls[1] === 0) {
+                if ((value.id !== 0) && walls[1] === 0) {
                     ctx.fillRect(left, top, 1, cellSize);
+                    //ctx.fillText(id, left, top+50);
+                    if (id === start) {
+                        ctx.fillStyle = "rgba(0, 255, 0, 0.8)";
+                        ctx.fillRect(left, top, 50, 50);
+                    }
+                    else if (id === end) {
+                        ctx.fillStyle = "red";
+                        ctx.fillRect(left, top, 50, 50);
+                    }
                 }
 
                 // if not the last cell and there is a boundary to the right, draw it
                 if ((value.id !== Object.keys(mazes).length - 1) && walls[3] === 0) {
                     ctx.fillRect(left + cellSize - 1, top, 1, cellSize);
+                    //ctx.fillText(id, left, top+50);
+                    if (id === start) {
+                        ctx.fillStyle = "rgba(0, 255, 0, 0.8)";
+                        ctx.fillRect(left, top, 50, 50);
+                    }
+                    else if (id === end) {
+                        ctx.fillStyle = "red";
+                        ctx.fillRect(left, top, 50, 50);
+                    }
                 }
             });
         };
 
-        const total = Array();
+        const total = [];
         total.push(0);
         const drawPath = (values, finalPath) => {
-            let currentIndex = 1;
+            let currentIndex = 2;
             
             const drawNextCell = () => {
                 // return once drawing is over (base case)
@@ -74,11 +112,9 @@ const Canvas = ({mazes, paths, visited, times, pathTimes, gh}) => {
 
                 // access the data of a cell on the path from values much like in mazeDraw (also get the midpoint this time)
                 const pathCell = finalPath[currentIndex];
-                let delay = 0;
                 const value = values[pathCell];
                 const z = pathTimes[currentIndex]
                 total.push(z)
-                console.log(z);
 
          
                 ctx.fillStyle = "rgba(251, 255, 0, 0.8)";
@@ -86,7 +122,7 @@ const Canvas = ({mazes, paths, visited, times, pathTimes, gh}) => {
                 const y = value.y;
                 const left = y * cellSize;
                 const top = x * cellSize;
-                ctx.fillRect(left, top, 50, 50);
+                ctx.fillRect(left, top, 50, 48);
                 currentIndex ++;
                 setTimeout(drawNextCell, (z) * 10000000);
             }
@@ -140,7 +176,6 @@ const Canvas = ({mazes, paths, visited, times, pathTimes, gh}) => {
         
         const checkConditions = () => {
             // is drawVisited done and the path available?
-            console.log(paths && finished);
             return paths && finished;
         };
 
@@ -160,12 +195,7 @@ const Canvas = ({mazes, paths, visited, times, pathTimes, gh}) => {
 
         checkAndExecute();
 
-        ctx.fillStyle = "rgba(0, 255, 0, 0.8)";
-        ctx.fillRect(0, 0, 50, 50);
-        ctx.fillStyle = "red";
-        ctx.fillRect(endcell, endcell, 50, 50);
-
-    }, [mazes, paths, visited, times, pathTimes, gh])
+    }, [mazes, paths, visited, times, pathTimes]);
 
     return <canvas ref={canvasRef} width={2000} height={2000}></canvas>
 }

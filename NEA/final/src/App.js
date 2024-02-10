@@ -1,30 +1,47 @@
 import React, { useState } from 'react';
 import Navbar from './Navbar';
 import Home from './Home';
-import Canvas from './Canvas';
 
 function App() {
+  // state variables for maze and maze size
   const [reloadMaze, setReloadMaze] = useState(false);
-  const [userInput, setUserInput] = useState("");
+  const [mazeSize, setMazeSize] = useState("");
   const [userAlgo, setUserAlgo] = useState("");
+  const [userStart, setUserStart] = useState("");
+  const [userEnd, setUserEnd] = useState("");
 
-  const handleReloadMaze = () => {
+  // function to toggle maze state variable, triggering Home component re-render
+  const handleMazeChange = () => {
     setReloadMaze(true);
   }
 
-  const handleInputChange = (value) => {
-    setUserInput(value);
+  // function to toggle maze size state variable
+  const handleSizeChange = (value) => {
+    setMazeSize(value);
   }
-
-  const handleInputChange2 = (value) => {
+  
+  // function to toggle pathfinding algorithm state variable
+  const handleAlgoChange = (value) => {
     setUserAlgo(value);
   }
 
+  // function to toggle pathfinding algorithm state variable
+  const handleStartChange = (value) => {
+    setUserStart(parseInt(value));
+  }
+
+  // function to toggle pathfinding algorithm state variable
+  const handleEndChange = (value) => {
+    setUserEnd(parseInt(value));
+  }
+  
+
+
   return (
     <div className="App">
-      <Navbar onReloadMaze={handleReloadMaze} userInput={userInput} userAlgo={userAlgo} onInputChange={handleInputChange} onInputChange2={handleInputChange2} />
+      <Navbar onReloadMaze={handleMazeChange} mazeSize={mazeSize} userAlgo={userAlgo} userStart={userStart} userEnd={userEnd} onInputChange={handleSizeChange} onInputChange2={handleAlgoChange} onInputChange3={handleStartChange} onInputChange4={handleEndChange}/>
       <div className="content">
-        <Home reloadMaze={reloadMaze} onReloadComplete={() => setReloadMaze(false)} userInput={userInput} userAlgo={userAlgo} />
+        <Home reloadMaze={reloadMaze} onReloadComplete={() => setReloadMaze(false)} mazeSize={mazeSize} userAlgo={userAlgo} userStart={userStart} userEnd={userEnd}/>
       </div>
     </div>
   );

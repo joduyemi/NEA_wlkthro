@@ -2,27 +2,18 @@ import { useState, useEffect } from 'react';
 import Canvas from './Canvas';
 
 
-const Home = ({reloadMaze, onReloadComplete, userInput, userAlgo}) => {
-        const apiEndpoint = `https://euum9mrx4k.execute-api.eu-west-2.amazonaws.com/prod/api/maze?event=maze_generation&n=${userInput}&sideLen=18&algo=${userAlgo}`
-        console.log(apiEndpoint);
-        // overarching (arrow) function which will be imported by the main module
-        console.log(userInput);
+const Home = ({reloadMaze, onReloadComplete, mazeSize, userAlgo, userStart, userEnd}) => {
+        // API Endpoint based on user input
+        const apiEndpoint = `https://euum9mrx4k.execute-api.eu-west-2.amazonaws.com/prod/api/maze?event=maze_generation&n=${mazeSize}&sideLen=18&algo=${userAlgo}&start=${userStart}&end=${userEnd}`
+
+        // state variables for maze data
         const [mazes, setMazes] = useState(null);
         const [paths, setPaths] = useState(null);
         const [visited, setVisited] = useState(null);
         const [times, setTimes] = useState(null);
         const [pathTimes, setPathTimes] = useState(null);
-        const [gh, setGh] = useState(userInput);
-        const [gh2, setGh2] = useState(userAlgo);
-        
-        useEffect(() => {
-            setGh(userInput); // Update gh whenever userInput changes
-        }, [userInput]);
-
-        useEffect(() => {
-            setGh2(userAlgo); // Update gh whenever userInput changes
-        }, [userAlgo]);
-
+     
+        // fetch maze data whenever reloadMaze changes
         useEffect(() => {
             if (reloadMaze) {
                 let isMounted = true;
@@ -76,11 +67,11 @@ const Home = ({reloadMaze, onReloadComplete, userInput, userAlgo}) => {
         }
             
 
-        }, [reloadMaze, onReloadComplete, userInput, userAlgo]) 
+        }, [reloadMaze, onReloadComplete, mazeSize, userAlgo, apiEndpoint]) 
         
         return (
             <div className="Home">
-                {mazes && paths && visited && gh && <Canvas mazes={mazes} paths={paths} visited={visited} times={times} pathTimes={pathTimes} gh={gh}/>}
+                {mazes && paths && visited && <Canvas mazes={mazes} paths={paths} visited={visited} times={times} pathTimes={pathTimes} userStart={userStart} userEnd={userEnd} />}
             </div>
         );
 
