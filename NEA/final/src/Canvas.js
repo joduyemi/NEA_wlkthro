@@ -116,7 +116,7 @@ const Canvas = ({mazes, paths, visited, times, pathTimes, gh}) => {
       
               currentIndex++;
       
-              setTimeout(drawVisited, (times[currentIndex]));
+              setTimeout(drawVisited, (times[currentIndex]) * 100);
             };
       
             drawVisited();
