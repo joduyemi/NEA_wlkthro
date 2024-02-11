@@ -24,29 +24,38 @@ const Navbar = ({ onReloadMaze, onInputChange, onInputChange2, onInputChange3, o
     onInputChange2(value);
   })
 
-  // handles the onChange of the maze size input and passes it to the parent (App) through the prop
-  const handleMazeStart = ((event) => {
-    const value = parseInt(event.target.value); // Convert input value to integer
-    const maxSize = parseInt(document.getElementById('user_input').value) ** 2 - 1; // Calculate max value based on maze size
-    if (!isNaN(value) && value <= maxSize) { // Validate if value is a number and within range
-      onInputChange3(value.toString());
-    } else {
-      alert('Invalid input! Please enter a number less than or equal to ' + maxSize);
-    }
+  // handles the onChange of the maze start input and passes it to the parent (App) through the prop
+const handleMazeStart = (event) => {
+  const mazeSize = document.getElementById('user_input').value;
+  if (!mazeSize || isNaN(parseInt(mazeSize))) {
+    alert('Please enter the maze size first!');
+    return;
   }
-  )
+  const value = parseInt(event.target.value); 
+  const maxSize = parseInt(mazeSize) ** 2 - 1; // calculate max value based on maze size
+  if (!isNaN(value) && value <= maxSize) { // validate if value is a number and within range
+    onInputChange3(value.toString());
+  } else {
+    alert('Invalid input! Please enter a number less than or equal to ' + maxSize);
+  }
+}
 
-  // handles the onChange of the maze algo input and passes it to the parent (App) through the prop
-  const handleMazeEnd = ((event) => {
-    const value = parseInt(event.target.value); // Convert input value to integer
-    const maxSize = parseInt(document.getElementById('user_input').value) ** 2 - 1; // Calculate max value based on maze size
-    if (!isNaN(value) && value <= maxSize) { // Validate if value is a number and within range
-      onInputChange4(value.toString());
-    } else {
-      alert('Invalid input! Please enter a number less than or equal to ' + maxSize);
-    }
+// handles the onChange of the maze end input and passes it to the parent (App) through the prop
+const handleMazeEnd = (event) => {
+  const mazeSize = document.getElementById('user_input').value;
+  if (!mazeSize || isNaN(parseInt(mazeSize))) {
+    alert('Please enter the maze size first!');
+    return;
   }
-  )
+  const value = parseInt(event.target.value); 
+  const maxSize = parseInt(mazeSize) ** 2 - 1; // calculate max value based on maze size
+  if (!isNaN(value) && value <= maxSize) { // validate if value is a number and within range
+    onInputChange4(value.toString());
+  } else {
+    alert('Invalid input! Please enter a number less than or equal to ' + maxSize);
+  }
+}
+
 
 
   return (
