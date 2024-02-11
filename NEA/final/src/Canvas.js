@@ -1,63 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
-const Canvas = ({mazes, paths, visited, times, pathTimes, userStart, userEnd, mazeSize, dataFetched}) => {
-    const [dataFetched2, setDataFetched2] = useState(false);
+const Canvas = ({mazes, paths, visited, times, pathTimes, userStart, userEnd}) => {
     const start = userStart;
     const end = userEnd;
     // function to interactively display the maze
     // use a useRef hook to get the HTML canvas element of the DOM (outside of the useEffect to persist through rerenders)
     const canvasRef = useRef(null);
-
     useEffect(() => {
-        const canvas = canvasRef.current;
-        if (!canvas) {
-            console.error("Canvas element is not available.");
-            return;
-        }
-
-        const ctx = canvas.getContext("2d");
-        const cellSize = 50;
-        const size = parseInt(mazeSize, 10); // Convert mazeSize to integer
-
-        // Clear canvas
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        const drawMazeGrid = () => {
-            for (let i = 0; i < size; i++) {
-                for (let j = 0; j < size; j++) {
-                    const x = j * cellSize;
-                    const y = i * cellSize;
-                    const index = i * size + j;
-
-                    ctx.beginPath();
-                    ctx.rect(x, y, cellSize, cellSize);
-                    ctx.fillStyle = "#FFFFFF";
-                    ctx.fill();
-                    ctx.stroke();
-
-                    // Display cell index
-                    ctx.fillStyle = "black";
-                    ctx.font = '12px Arial';
-                    const textX = x + cellSize / 2 - 5;
-                    const textY = y + cellSize / 2 + 5;
-                    ctx.fillText(index, textX, textY);
-                    ctx.closePath();
-                }
-            }
-        };
-
-        drawMazeGrid();
-    }, [mazeSize]);
-
-    useEffect(() => {
-        if (mazes && paths && visited && times && pathTimes) {
-            setDataFetched2(true);
-        }
-    }, [mazes, paths, visited, times, pathTimes]);
-
-    useEffect(() => {
-        if (dataFetched2) {
-            let finished = false;
+        let finished = false;
         // always references CURRENT value of canvasRef, provided it exists
         const canvas = canvasRef.current;
         if (!canvas) {
@@ -73,7 +23,7 @@ const Canvas = ({mazes, paths, visited, times, pathTimes, userStart, userEnd, ma
             ctx.clearRect(0, 0, canvas.width, canvas.height);
         };
 
-        const cellSize = 50;
+        const cellSize = 40;
 
 
         const drawMaze = (values) => {
@@ -96,11 +46,11 @@ const Canvas = ({mazes, paths, visited, times, pathTimes, userStart, userEnd, ma
                     //ctx.fillText(id, left, top+50);
                     if (id === start) {
                         ctx.fillStyle = "rgba(0, 255, 0, 0.8)";
-                        ctx.fillRect(left, top, 50, 50);
+                        ctx.fillRect(left, top, 40, 40);
                     }
                     else if (id === end) {
                         ctx.fillStyle = "red";
-                        ctx.fillRect(left, top, 50, 50);
+                        ctx.fillRect(left, top, 40, 40);
                     }
                 }
 
@@ -110,11 +60,11 @@ const Canvas = ({mazes, paths, visited, times, pathTimes, userStart, userEnd, ma
                     //ctx.fillText(id, left, top+50);
                     if (id === start) {
                         ctx.fillStyle = "rgba(0, 255, 0, 0.8)";
-                        ctx.fillRect(left, top, 50, 50);
+                        ctx.fillRect(left, top, 40, 40);
                     }
                     else if (id === end) {
                         ctx.fillStyle = "red";
-                        ctx.fillRect(left, top, 50, 50);
+                        ctx.fillRect(left, top, 40, 40);
                     }
                 }
 
@@ -124,11 +74,11 @@ const Canvas = ({mazes, paths, visited, times, pathTimes, userStart, userEnd, ma
                     //ctx.fillText(id, left, top+50);
                     if (id === start) {
                         ctx.fillStyle = "rgba(0, 255, 0, 0.8)";
-                        ctx.fillRect(left, top, 50, 50);
+                        ctx.fillRect(left, top, 40, 40);
                     }
                     else if (id === end) {
                         ctx.fillStyle = "red";
-                        ctx.fillRect(left, top, 50, 50);
+                        ctx.fillRect(left, top, 40, 40);
                     }
                 }
 
@@ -138,11 +88,11 @@ const Canvas = ({mazes, paths, visited, times, pathTimes, userStart, userEnd, ma
                     //ctx.fillText(id, left, top+50);
                     if (id === start) {
                         ctx.fillStyle = "rgba(0, 255, 0, 0.8)";
-                        ctx.fillRect(left, top, 50, 50);
+                        ctx.fillRect(left, top, 40, 40);
                     }
                     else if (id === end) {
                         ctx.fillStyle = "red";
-                        ctx.fillRect(left, top, 50, 50);
+                        ctx.fillRect(left, top, 40, 40);
                     }
                 }
             });
@@ -151,7 +101,7 @@ const Canvas = ({mazes, paths, visited, times, pathTimes, userStart, userEnd, ma
         const total = [];
         total.push(0);
         const drawPath = (values, finalPath) => {
-            let currentIndex = 2;
+            let currentIndex = 1;
             
             const drawNextCell = () => {
                 // return once drawing is over (base case)
@@ -162,17 +112,18 @@ const Canvas = ({mazes, paths, visited, times, pathTimes, userStart, userEnd, ma
 
                 // access the data of a cell on the path from values much like in mazeDraw (also get the midpoint this time)
                 const pathCell = finalPath[currentIndex];
+                console.log(pathCell);
                 const value = values[pathCell];
                 const z = pathTimes[currentIndex]
                 total.push(z)
 
          
-                ctx.fillStyle = "rgba(251, 255, 0, 0.8)";
+                ctx.fillStyle = "blue";
                 const x = value.x;
                 const y = value.y;
                 const left = y * cellSize;
                 const top = x * cellSize;
-                ctx.fillRect(left, top, 50, 48);
+                ctx.fillRect(left + 20, top + 20, 3, 3);
                 currentIndex ++;
                 setTimeout(drawNextCell, (z) * 10000000);
             }
@@ -198,7 +149,7 @@ const Canvas = ({mazes, paths, visited, times, pathTimes, userStart, userEnd, ma
               const y = value.y;
               const left = y * cellSize;
               const top = x * cellSize;
-              ctx.fillRect(left, top, 50, 50);
+              ctx.fillRect(left, top, 40, 40);
       
               currentIndex++;
       
@@ -245,9 +196,7 @@ const Canvas = ({mazes, paths, visited, times, pathTimes, userStart, userEnd, ma
 
         checkAndExecute();
 
-        }
-        
-    }, [dataFetched]);
+    }, [mazes, paths, visited, times, pathTimes]);
 
     return <canvas ref={canvasRef} width={2000} height={2000}></canvas>
 }
