@@ -1,8 +1,19 @@
 import React, { useEffect, useRef } from 'react';
 
-const Canvas = ({mazes, paths, visited, times, pathTimes, userStart, userEnd}) => {
+const Canvas = ({mazes, paths, visited, times, pathTimes, userStart, userEnd, speedLabel}) => {
     const start = userStart;
     const end = userEnd;
+    let timer = 700;
+    if (speedLabel == "slow") {
+        timer = 2000;
+    }
+    else if (speedLabel == "fast") {
+        timer = 100;
+    }
+    else {
+        timer = 700;
+    }
+    console.log(timer);
     // function to interactively display the maze
     // use a useRef hook to get the HTML canvas element of the DOM (outside of the useEffect to persist through rerenders)
     const canvasRef = useRef(null);
@@ -153,7 +164,7 @@ const Canvas = ({mazes, paths, visited, times, pathTimes, userStart, userEnd}) =
       
               currentIndex++;
       
-              setTimeout(drawVisited, (times[currentIndex]) * 100);
+              setTimeout(drawVisited, (times[currentIndex]) * timer);
             };
       
             drawVisited();

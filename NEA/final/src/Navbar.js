@@ -1,8 +1,28 @@
 import React, { useState } from 'react';
 
-const Navbar = ({ onReloadMaze, onInputChange, onInputChange2, onInputChange3, onInputChange4 }) => {
+const Navbar = ({ speedLabel, onReloadMaze, onInputChange, onInputChange2, onInputChange3, onInputChange4, onInputChange5}) => {
+  console.log(speedLabel);
   // state variable to manage if button is enabled
   const [isButtonDisabled, setButtonDisabled] = useState(false);
+
+  const handleSpeedChange = (event) => {
+    const value = parseInt(event.target.value);
+    let label = "";
+    switch(value) {
+      case 0:
+        label = "slow";
+        break;
+      case 1:
+        label = "middle";
+        break;
+      case 2:
+        label = "fast";
+        break;
+      default:
+        label = "middle";
+    }
+    onInputChange5(label);
+  };
 
   // ensures maze reload button is disabled to prevent multiple requests during maze reload, then calls onReloadMaze from App
   const handleReloadMaze = () => {
@@ -81,6 +101,10 @@ const handleMazeEnd = (event) => {
       </select>
       <input type='text' id='start' placeholder='Type the start' onChange={handleMazeStart}></input>
       <input type='text' id='end' placeholder='Type the end' onChange={handleMazeEnd}></input>
+      <div className="speed-toggle">
+        <input type="range" min="0" max="2" value={speedLabel === "slow" ? "0" : speedLabel === "middle" ? "1" : "2"} className="slider" onChange={handleSpeedChange} />
+        <span className="slider-value">{speedLabel}</span>
+      </div>
     </nav>
     
   );

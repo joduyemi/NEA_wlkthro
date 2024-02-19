@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import Canvas from './Canvas';
 
 
-const Home = ({reloadMaze, onReloadComplete, mazeSize, userAlgo, userStart, userEnd}) => {
+const Home = ({reloadMaze, onReloadComplete, mazeSize, userAlgo, userStart, userEnd, speedLabel}) => {
+        console.log(speedLabel);
         // API Endpoint based on user input
         const apiEndpoint = `https://euum9mrx4k.execute-api.eu-west-2.amazonaws.com/prod/api/maze?event=maze_generation&n=${mazeSize}&sideLen=18&algo=${userAlgo}&start=${userStart}&end=${userEnd}`
         console.log(apiEndpoint);
@@ -71,7 +72,7 @@ const Home = ({reloadMaze, onReloadComplete, mazeSize, userAlgo, userStart, user
         
         return (
             <div className="Home">
-                {mazes && paths && visited && <Canvas mazes={mazes} paths={paths} visited={visited} times={times} pathTimes={pathTimes} userStart={userStart} userEnd={userEnd} />}
+                {mazes && paths && visited && <Canvas mazes={mazes} paths={paths} visited={visited} times={times} pathTimes={pathTimes} userStart={userStart} userEnd={userEnd} speedLabel={speedLabel} />}
             </div>
         );
 

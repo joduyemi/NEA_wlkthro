@@ -9,6 +9,8 @@ function App() {
   const [userAlgo, setUserAlgo] = useState("");
   const [userStart, setUserStart] = useState("");
   const [userEnd, setUserEnd] = useState("");
+  const [speedLabel, setSpeedLabel] = useState("middle");
+
 
   // function to toggle maze state variable, triggering Home component re-render
   const handleMazeChange = () => {
@@ -35,13 +37,15 @@ function App() {
     setUserEnd(parseInt(value));
   }
   
-
+  const handleIt = (value) => {
+    setSpeedLabel(value);
+  }
 
   return (
     <div className="App">
-      <Navbar onReloadMaze={handleMazeChange} mazeSize={mazeSize} userAlgo={userAlgo} userStart={userStart} userEnd={userEnd} onInputChange={handleSizeChange} onInputChange2={handleAlgoChange} onInputChange3={handleStartChange} onInputChange4={handleEndChange}/>
+      <Navbar onReloadMaze={handleMazeChange} mazeSize={mazeSize} userAlgo={userAlgo} userStart={userStart} userEnd={userEnd} onInputChange={handleSizeChange} onInputChange2={handleAlgoChange} onInputChange3={handleStartChange} onInputChange4={handleEndChange} speedLabel={speedLabel} onInputChange5={handleIt}/>
       <div className="content">
-        <Home reloadMaze={reloadMaze} onReloadComplete={() => setReloadMaze(false)} mazeSize={mazeSize} userAlgo={userAlgo} userStart={userStart} userEnd={userEnd}/>
+        <Home reloadMaze={reloadMaze} onReloadComplete={() => setReloadMaze(false)} mazeSize={mazeSize} userAlgo={userAlgo} userStart={userStart} userEnd={userEnd} speedLabel={speedLabel}/>
       </div>
     </div>
   );
