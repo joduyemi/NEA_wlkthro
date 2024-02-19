@@ -82,8 +82,13 @@ const handleMazeEnd = (event) => {
     <nav className="navbar">
       <h1>Find your path</h1>
       <div className="links"></div>
-      <a href="/">Home</a>
+      <input type='text' id='user_input' placeholder='Maze size' onChange={handleMazeSize}></input>
+      <select id='algo' onChange={handleMazeAlgo}>
+        <option value="astar">A*</option>
+        <option value="dijkstra">Dijkstra</option>
+      </select>
       <button
+        id='hi'
         onClick={handleReloadMaze}
         style={{
           color: "white",
@@ -94,13 +99,8 @@ const handleMazeEnd = (event) => {
       >
         Create a new maze
       </button>
-      <input type='text' id='user_input' placeholder='Type the maze size' onChange={handleMazeSize}></input>
-      <select id='algo' onChange={handleMazeAlgo}>
-        <option value="astar">A*</option>
-        <option value="dijkstra">Dijkstra</option>
-      </select>
-      <input type='text' id='start' placeholder='Type the start' onChange={handleMazeStart}></input>
-      <input type='text' id='end' placeholder='Type the end' onChange={handleMazeEnd}></input>
+      <input type='text' id='start' placeholder='Start' onChange={handleMazeStart}></input>
+      <input type='text' id='end' placeholder='End' onChange={handleMazeEnd}></input>
       <div className="speed-toggle">
         <input type="range" min="0" max="2" value={speedLabel === "slow" ? "0" : speedLabel === "middle" ? "1" : "2"} className="slider" onChange={handleSpeedChange} />
         <span className="slider-value">{speedLabel}</span>

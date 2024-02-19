@@ -1,6 +1,11 @@
 /* importing fonts from Google fonts */
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
 
+body {
+  background-color: #f0f0f0; /* or any other light color */
+}
+
+
 /* global styling (applied to everything unless more specific styles follow) */
 * {
   margin: 0;
@@ -11,11 +16,10 @@
 /* navbar styling */
 .navbar {
   padding: 20px;
+  justify-content: space-between;
   align-items: center;
   display:flex;
-  max-width: 1000px;
-  margin: 0 auto;
-  border-bottom: 1px solid #f2f2f2;
+  background-color: #fff;
 }
 
 .navbar h1 {
@@ -49,6 +53,9 @@
 .speed-toggle {
   width: 200px; /* Adjust width as needed */
   margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .slider {
@@ -78,4 +85,24 @@
 .slider-value {
   display: block;
   text-align: center;
+}
+
+#user_input {
+  margin-right: 20px;
+  width: fit-content;
+}
+
+#algo {
+  margin-right: 20px;
+  width: fit-content;
+}
+
+#start {
+  margin-right: 20px;
+  width: fit-content;
+}
+
+#hi {
+  margin-right: 20px;
+  width: fit-content;
 }

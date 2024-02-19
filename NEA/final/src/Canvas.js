@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 
 const Canvas = ({mazes, paths, visited, times, pathTimes, userStart, userEnd, speedLabel}) => {
+    console.log(paths);
     const start = userStart;
     const end = userEnd;
     let timer = 700;
